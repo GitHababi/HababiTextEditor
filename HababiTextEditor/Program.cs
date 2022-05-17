@@ -1,5 +1,6 @@
 ﻿using HTE.Graphics;
 using HTE.Elements;
+using HTE.Utils;
 using System.Threading;
 namespace HTE
 {
@@ -8,15 +9,18 @@ namespace HTE
         public static void Main(string[] args)
         {
             Console.Clear();
+            string message = "HTE - Hababi Text Editor v0.1-alpha";
             var consoleWindow = new ConsoleWindow(Console.WindowWidth, Console.WindowHeight);
-            var popup = new PopupElement("popup", consoleWindow.Width / 2, 3, "HTE - Hababi Text Editor v0.1-alpha", ConsoleColor.White, ConsoleColor.Red, consoleWindow);
-            var textBox = new TextBoxElement("textbox", 0, 0, consoleWindow.Width, consoleWindow.Height, ConsoleColor.White, ConsoleColor.Black, consoleWindow);
+            TextBoxElement textBox = 
+                new("textbox", 
+                new() { X = consoleWindow.Width / 2 - (message.Length+2)/2}, 
+                30, 5, consoleWindow, 
+                message, 
+                Alignment.Center);
             consoleWindow
                 .AddComponent(textBox)
-                .AddComponent(popup)
                 .Refresh()
                 .InputManager.SetFocus(textBox);
-            Thread.Sleep(1000);
         }
 
     }

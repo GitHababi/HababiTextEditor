@@ -1,4 +1,5 @@
 ﻿using HTE.Elements;
+using HTE.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace HTE.Elements
     {
         protected readonly string text;
         
-        public StringElement(string id, int x, int y, string text, ConsoleColor fg, ConsoleColor bg) : base(id, x, y, fg, bg)
+        public StringElement(string id, ElementSettings settings, string text) : base(id, settings)
         {
             this.text = text;
         }

@@ -1,4 +1,5 @@
 ﻿using HTE.Elements;
+using HTE.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace HTE.Elements
     {
         protected readonly int width;
         protected readonly int height;
-        public BoxElement(string id, int x, int y, int width, int height, ConsoleColor fg, ConsoleColor bg) : base(id, x, y, fg, bg)
+        public BoxElement(string id, ElementSettings settings, int width, int height) : base(id,settings)
         {
             this.width = width;
             this.height = height;

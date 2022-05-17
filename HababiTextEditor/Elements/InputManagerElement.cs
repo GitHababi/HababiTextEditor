@@ -14,11 +14,11 @@ namespace HTE.Elements
         private StringElement text;
         private Thread inputLoop;
         private bool takeInput;
-        public InputManagerElement(string id, ConsoleWindow window) : base(id, 0, 0, ConsoleColor.Black, ConsoleColor.Black)
+        public InputManagerElement(string id, ConsoleWindow window) : base(id, new Utils.ElementSettings())
         {
             this.window = window;
             this.takeInput = true;
-            this.text = new(id + "text", 1, window.Height - 1, "", ConsoleColor.Black, ConsoleColor.White);
+            this.text = new(id + "text", new(1, window.Height - 1, ConsoleColor.Black, ConsoleColor.White), "");
             this.focus = this;
             ThreadStart threadStart = new(this.InputListen);
             inputLoop = new(threadStart); // mfw no events for taking console input
@@ -40,7 +40,7 @@ namespace HTE.Elements
             if (key.Key == ConsoleKey.Escape)
                 takeInput = false;
             window.RemoveComponent(text)
-                  .AddComponent(text = new(Id + "text", 0, window.Height - 1, $"INPUT: {key.KeyChar}", ConsoleColor.Black, ConsoleColor.White))
+                  .AddComponent(text = new(Id + "text", new(0, window.Height - 1, ConsoleColor.Black, ConsoleColor.White), $"INPUT: {key.KeyChar}"))
                   .Refresh();
         }
 
