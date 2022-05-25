@@ -25,6 +25,11 @@ namespace HTE
                 selectableList.ToggleInputListen();
                 
             };
+
+            while (consoleWindow.InputManager.Active)
+            {
+                consoleWindow.InputManager.PressKey(Console.ReadKey(true));
+            }
         }
 
         

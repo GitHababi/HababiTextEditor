@@ -16,14 +16,13 @@ namespace HTE.Utils
 
         public event KeyPressHandler OnKeyPressed;
         public event NewLineHandler OnNewLine;
+
+        public bool Active { get { return OnKeyPressed != null;  } }
         public InputManager(ConsoleWindow window)
         {
             inputbuffer = "";
             this.window = window;
             text = new(new(this,1, window.Height - 1, ConsoleColor.Black, ConsoleColor.White), "");
-            ThreadStart threadStart = new(InputListen);
-            inputLoop = new(threadStart); // mfw no events for taking console input
-            inputLoop.Start();
             OnKeyPressed += RecieveInput;
         }
 
@@ -60,12 +59,10 @@ namespace HTE.Utils
             text.Draw();
         }
 
-        private void InputListen()
+
+        public void PressKey(ConsoleKeyInfo key)
         {
-            while (OnKeyPressed != null)
-            {
-                OnKeyPressed.Invoke(Console.ReadKey(true));
-            }
+            OnKeyPressed.Invoke(key);
         }
     }
 }

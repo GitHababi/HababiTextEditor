@@ -43,6 +43,7 @@ namespace HTE.Elements
                 ConsoleHelper.WriteRelative(_renderableText[i], x + 1, Console.CursorTop + 1);
             }
             base.Draw();
+            Console.ResetColor();
         }
         private void FitText(string text)
         {

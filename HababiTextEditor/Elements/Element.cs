@@ -20,7 +20,6 @@ namespace HTE.Elements
         
         private readonly InputManager inputManager;
         private bool _listening;
-        
         /// <summary>
         /// Toggle key press listening from <see cref="InputManager"/> source
         /// </summary>

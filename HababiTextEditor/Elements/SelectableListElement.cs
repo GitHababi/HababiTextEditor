@@ -53,6 +53,7 @@ namespace HTE.Elements
                 Console.CursorLeft = x + 1;
             }
             base.Draw();
+            Console.ResetColor();
         }
         
         private string FitText(string text)

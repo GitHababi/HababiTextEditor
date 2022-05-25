@@ -77,6 +77,7 @@ namespace HTE.Elements
             Console.Write("╝");
             Console.SetCursorPosition(x + 1, y);
             Console.Write(croppedTitle);
+            Console.ResetColor();
         }
     }
 }
