@@ -17,17 +17,32 @@ namespace HTE.Elements
         protected readonly int y;
         protected readonly ConsoleColor foreground;
         protected readonly ConsoleColor background;
-        public readonly string Id;
+        
+        private readonly InputManager inputManager;
+        private bool _listening;
+        
+        /// <summary>
+        /// Toggle key press listening from <see cref="InputManager"/> source
+        /// </summary>
+        public void ToggleInputListen()
+        {
+            if (_listening)
+                inputManager.OnKeyPressed -= this.RecieveInput;
+            else
+                inputManager.OnKeyPressed += this.RecieveInput;
+            _listening = !_listening;
+        }
         public virtual void Draw() { }
         public virtual void RecieveInput(ConsoleKeyInfo key) { }
-        public Element(string id, ElementSettings settings)
+        public Element(ElementSettings settings)
         {
-            this.Id = id;
             this.x = settings.X;
             this.y = settings.Y;
             foreground = settings.fg;
             background = settings.bg;
-        }
+            inputManager = settings.Manager;
+            _listening = false;
 
+        }
     }
 }

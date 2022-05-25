@@ -1,4 +1,5 @@
 ﻿using HTE.Elements;
+using HTE.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,24 +12,24 @@ namespace HTE.Graphics
     {
         public int Width { get; private init; }
         public int Height { get; private init; }
-        public InputManagerElement InputManager { get; private set; }
+        public InputManager InputManager { get; private set; }
 
-        private Dictionary<string,Element> components;
+        private readonly List<Element> components;
 
         public ConsoleWindow(int width, int height)
         {
             components = new();
-            InputManager = new InputManagerElement("inputmanager", this);
             Width = width;
             Height = height;
             Console.CursorVisible = false;
+            InputManager = new InputManager(this);
         }
 
         public ConsoleWindow Refresh()
         {
             foreach (var component in components) // WARNING: This is not thread safe
             {
-                component.Value.Draw();
+                component.Draw();
             }
             return this;
         }
@@ -37,14 +38,15 @@ namespace HTE.Graphics
             Console.Clear();
             return this;
         }
+
         public ConsoleWindow AddComponent(Element component)
         {
-            components.Add(component.Id, component);
+            components.Add(component);
             return this;
         }
         public ConsoleWindow RemoveComponent(Element component)
         {
-            components.Remove(component.Id);
+            components.Remove(component);
             return this;
         }
     }

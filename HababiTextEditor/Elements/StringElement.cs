@@ -1,5 +1,6 @@
 ﻿using HTE.Elements;
 using HTE.Utils;
+using HTE.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +11,20 @@ namespace HTE.Elements
 {
     public class StringElement : Element
     {
-        protected readonly string text;
+        private string text;
+        private string _previousText;
+        public string Text { get { return text; } set { _previousText = text;  text = value; } }
         
-        public StringElement(string id, ElementSettings settings, string text) : base(id, settings)
+        public StringElement(ElementSettings settings, string text) : base(settings)
         {
+            this._previousText = "";
             this.text = text;
         }
         public override void Draw()
         {
             Console.BackgroundColor = background;
             Console.ForegroundColor = foreground;
+            ConsoleHelper.EraseText(x,y, _previousText);
             Console.SetCursorPosition(x, y);
             Console.Write(text);
             Console.ResetColor();

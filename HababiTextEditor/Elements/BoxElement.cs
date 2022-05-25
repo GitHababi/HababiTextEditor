@@ -12,12 +12,34 @@ namespace HTE.Elements
     {
         protected readonly int width;
         protected readonly int height;
-        public BoxElement(string id, ElementSettings settings, int width, int height) : base(id,settings)
+
+        private string croppedTitle;
+        public string Title
+        {
+            get 
+            { 
+                return croppedTitle; 
+            }
+            set
+            {
+                if (value.Length > width - 2)
+                {
+                    croppedTitle = value[..(width - 2)];
+                }
+                else
+                {
+                    croppedTitle = value;
+                }
+            }
+        }
+        public BoxElement(ElementSettings settings, int width, int height) : this(settings, width, height, "") {}
+
+        public BoxElement(ElementSettings settings, int width, int height, string title) : base(settings)
         {
             this.width = width;
             this.height = height;
+            Title = title;
         }
-
 
         /// <summary>
         /// Draws the box element aligned to the top left.
@@ -53,7 +75,8 @@ namespace HTE.Elements
                 Console.Write("═");
             }
             Console.Write("╝");
-            Console.ResetColor();
+            Console.SetCursorPosition(x + 1, y);
+            Console.Write(croppedTitle);
         }
     }
 }

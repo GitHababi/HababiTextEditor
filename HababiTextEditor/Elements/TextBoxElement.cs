@@ -11,34 +11,22 @@ namespace HTE.Elements
 {
     public class TextBoxElement : BoxElement
     {
-        private string text;
-        private Alignment alignment;
-
+        private string _text;
+        private readonly List<string> _renderableText;
         /// <summary>
         /// The text of the textbox.
         /// </summary>
-        public string Text
+        public string Text 
         {
-            get { return text; }
-            set { text = value; Draw(); }
+            get { return _text; }
+            set { _text = value; _renderableText.Clear(); _text.Split('\n').ToList().ForEach(str => FitText(str)); }
         }
-
-        /// <summary>
-        /// The alignment of the Text within the TextBox
-        /// </summary>
-        public Alignment Alignment
-        {
-            get { return alignment; }
-            set { alignment = value; Draw(); }
-        }
-        private ConsoleWindow window;
         
-        public TextBoxElement(string id, ElementSettings settings, int width, int height, ConsoleWindow window, string text, Alignment alignment)
-        : base(id, settings, width, height)
+        public TextBoxElement(ElementSettings settings, int width, int height, string text)
+        : base(settings, width, height)
         {
-            this.alignment = alignment;
-            this.window = window;
-            this.text = text;
+            _renderableText = new();
+            this.Text = text;
         }
 
         /// <summary>
@@ -46,45 +34,25 @@ namespace HTE.Elements
         /// </summary>
         public override void Draw()
         {
-            base.Draw();
             Console.BackgroundColor = background;
             Console.ForegroundColor = foreground;
-            if (Alignment == Alignment.Left)
-                ConsoleHelper.WriteRelative(PadLeft(text), x + 1, y + 1);
-            else if (Alignment == Alignment.Center)
-                ConsoleHelper.WriteRelative(PadCenter(text), x + 1, y + 1);
-            else if (Alignment == Alignment.Right)
-                ConsoleHelper.WriteRelative(PadRight(text), x + 1, y + 1);
-            
-
+            ConsoleHelper.DrawEmptyRect(x, y, width, height);
+            Console.CursorTop = y;
+            for (int i = 0; i < _renderableText.Count && i < height - 2; i++)
+            {
+                ConsoleHelper.WriteRelative(_renderableText[i], x + 1, Console.CursorTop + 1);
+            }
+            base.Draw();
         }
-
-        private string PadLeft(string text)
+        private void FitText(string text)
         {
             if (width - 2 < text.Length)
-                return text[..(width - 2)] + "\n" + PadLeft(text[(width - 2)..]);
-            return text;
+            {
+                _renderableText.Add(text[..(width - 2)]);
+                FitText(text[(width - 2)..]);
+            }
+            else
+                _renderableText.Add(text);
         }
-
-        private string PadCenter(string text)
-        {
-            if (width - 2 < text.Length)
-                return text[..(width - 2)] + "\n" + PadCenter(text[(width - 2)..]);
-            return new string(' ', (width - 2 - text.Length)/2) + text + new string(' ', (width - 2 - text.Length)/2);
-        }
-
-        private string PadRight(string text)
-        {
-
-            if (text.Length > width - 2)
-                return text[..(width - 2)] + "\n" + PadRight(text[(width - 2)..]);
-            return new string(' ', width - 2 - text.Length) + text;
-        }
-        public override void RecieveInput(ConsoleKeyInfo key)
-        {
-
-        }
-
-
     }
 }

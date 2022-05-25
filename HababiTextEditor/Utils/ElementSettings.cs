@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace HTE.Utils
 {
-    public record ElementSettings(int X = 0, int Y = 0 , ConsoleColor fg = ConsoleColor.White, ConsoleColor bg = ConsoleColor.Black);
+    public record ElementSettings(InputManager Manager, int X = 0, int Y = 0 , ConsoleColor fg = ConsoleColor.White, ConsoleColor bg = ConsoleColor.Black);
     
 }
