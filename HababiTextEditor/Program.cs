@@ -11,11 +11,19 @@ namespace HTE
         {
             Console.Clear();
             var consoleWindow = new ConsoleWindow(Console.WindowWidth, Console.WindowHeight);
-            var selectableList = new SelectableListElement(new(consoleWindow.InputManager), 15, 20, new());
-            consoleWindow.AddComponent(selectableList).Refresh();
+            var selectableList = new SelectableListElement(new(consoleWindow.InputManager), consoleWindow.Width /2 , consoleWindow.Height - 1, new());
+            var textbox = new TextBoxElement(new(consoleWindow.InputManager) { X = consoleWindow.Width / 2, fg= ConsoleColor.White, bg=ConsoleColor.Blue}, consoleWindow.Width / 2, consoleWindow.Height - 1, "");
+            consoleWindow.AddComponent(selectableList).AddComponent(textbox).Refresh();
+            selectableList.OnSelected += (option) =>
+            {
+                textbox.Text = File.ReadAllText(option.Value);
+                textbox.Draw();
+            };
             consoleWindow.InputManager.OnNewLine += (line) =>
             {
+                selectableList.Options = GetFilesFromDirectory(line);
                 selectableList.ToggleInputListen();
+                
             };
         }
 

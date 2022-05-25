@@ -10,9 +10,20 @@ namespace HTE.Elements
     internal class SelectableListElement : BoxElement
     {
         public event ListOptionHandler OnSelected;
-        private readonly List<ListOption> _options;
+        private List<ListOption> _options;
         private int _renderIndex;
         private int _selectedIndex;
+
+        public List<ListOption> Options
+        {
+            get { return _options; }
+            set
+            {
+                _options = value;
+                _selectedIndex = 0;
+                _renderIndex = 0;
+            }
+        }
         public SelectableListElement(ElementSettings settings, int width, int height, List<ListOption> options) : base(settings, width, height)
         {
             _renderIndex = 0;
@@ -70,6 +81,8 @@ namespace HTE.Elements
                 case ConsoleKey.Enter:
                     OnSelected.Invoke(_options[_selectedIndex]);
                     break;
+                default:
+                    return;
             }
             if (_selectedIndex < _renderIndex)
                 _renderIndex = _selectedIndex;
