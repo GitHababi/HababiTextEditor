@@ -1,12 +1,12 @@
-﻿using HTE.Elements;
-using HTE.Utils;
+﻿using HababiTUI.Elements;
+using HababiTUI.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTE.Graphics
+namespace HababiTUI.Graphics
 {
     public class ConsoleWindow
     {

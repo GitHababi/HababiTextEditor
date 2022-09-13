@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTE.Graphics
+namespace HababiTUI.Graphics
 {
     public static class ConsoleHelper
     {

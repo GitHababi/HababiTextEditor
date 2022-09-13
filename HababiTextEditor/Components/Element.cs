@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HTE.Graphics;
-using HTE.Utils;
+using HababiTUI.Graphics;
+using HababiTUI.Utils;
 
-namespace HTE.Elements
+namespace HababiTUI.Elements
 {
     /// <summary>
     /// Class that represents all objects in the console window

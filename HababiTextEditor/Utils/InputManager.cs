@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HTE.Elements;
-using HTE.Graphics;
-namespace HTE.Utils
+using HababiTUI.Elements;
+using HababiTUI.Graphics;
+namespace HababiTUI.Utils
 {
     public class InputManager
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HTE.Utils
+namespace HababiTUI.Utils
 {
     public delegate void ListOptionHandler(ListOption option);
 

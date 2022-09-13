@@ -1,9 +1,9 @@
-﻿using HTE.Graphics;
-using HTE.Elements;
-using HTE.Utils;
+﻿using HababiTUI.Graphics;
+using HababiTUI.Elements;
+using HababiTUI.Utils;
 using System.Threading;
 using System.IO;
-namespace HTE
+namespace HababiTUI
 {
     public static class Program
     {
