@@ -25,24 +25,6 @@ namespace HababiTUI.Graphics
         }
 
         /// <summary>
-        /// Erases the text as if it was printed relatively.
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="text"></param>
-        public static void EraseText(int x, int y, string text)
-        {
-            Console.SetCursorPosition(x, y);
-            for (int i = 0; i < text.Length; i++)
-            {
-                if (text[i] == '\n')
-                    Console.SetCursorPosition(x, y++);
-                else
-                    Console.Write(' ');
-            }
-        }
-
-        /// <summary>
         /// It's like an eraser!
         /// </summary>
         public static void DrawEmptyRect(int x, int y, int width, int height)
