@@ -1,4 +1,4 @@
-﻿using HababiTUI.Elements;
+﻿using HababiTUI.Components;
 using HababiTUI.Utils;
 using System;
 using System.Collections.Generic;
@@ -13,17 +13,26 @@ namespace HababiTUI.Containers
     /// </summary>
     public abstract class Container
     {
+        public ConsolePalette Palette { get; set; }
         public Rect Position { get; init; }
         
-        public List<Component> Components = new();
+        protected List<Component> Components = new();
         protected Component Selected;
-        public Container ParentContainer { get; init; }
+        public Container? ParentContainer { get; init; }
 
-        public Container(Rect position, Container parent)
+        public Container(Rect position, Container parent, ConsolePalette palette)
         {
+            Palette = palette;
             Position = position;
             ParentContainer = parent;
         }
+        public Container(Rect position, Container parent)
+        {
+            Palette = ConsolePalette.Default;
+            Position = position;
+            ParentContainer = parent;
+        }
+
 
         private bool _exit;
         public void ForceStop()
@@ -39,7 +48,7 @@ namespace HababiTUI.Containers
             DrawThis();
 
             foreach (var component in Components)
-                component.Draw();
+                component.Draw(this.Position);
 
             // TODO: next line may not be necessary
             if (Selected != null)
@@ -50,10 +59,12 @@ namespace HababiTUI.Containers
 
         public void Activate()
         {
+            DrawAll();
+            Selected = Components.FirstOrDefault(x => x.Selectable()) ?? new DefaultComponent(this);
             while (!_exit)
             {
                 if (Selected != null)
-                    Selected.HandleInput(Console.ReadKey(false));
+                    Selected.HandleInput(Console.ReadKey(true));
             }
         }
     }
