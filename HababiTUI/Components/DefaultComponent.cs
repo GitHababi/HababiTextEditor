@@ -17,7 +17,7 @@ public class DefaultComponent : Component
     {
     }
 
-    public override void Draw(Rect relativeTo)
+    public override void Draw()
     {
     }
 
@@ -27,7 +27,7 @@ public class DefaultComponent : Component
             this.ParentContainer.ForceStop();
     }
 
-    protected override void ChangeSelection(bool state)
+    protected override void OnSelectionChanged(bool state)
     {
     }
 

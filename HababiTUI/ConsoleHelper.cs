@@ -12,7 +12,6 @@ namespace HababiTUI;
 
 public static class ConsoleHelper
 {
-
     public static void SmartWrite(string text, Rect pos)
     {
         Console.SetCursorPosition(pos.x, pos.y);

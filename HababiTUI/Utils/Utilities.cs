@@ -28,6 +28,15 @@ public class Rect
     {
         return new(right.x + left.x, left.y + right.y, left.width + right.width, left.height + right.height);
     }
+
+    public bool PointInside(Rect other)
+    {
+        return 
+            this.x <= other.x && 
+            other.x <= this.x + this.width &&
+            this.y <= other.y &&
+            other.y <= this.y + this.height;
+    }
 }
 
 public class ConsolePalette
@@ -41,5 +50,9 @@ public class ConsolePalette
     public static ConsolePalette WithBlackBg(ConsoleColor color)
     {
         return new() { bg = ConsoleColor.Black, fg = color };
+    }
+    public static ConsolePalette Invert(ConsolePalette palette)
+    {
+        return new() { bg = palette.fg, fg = palette.bg };
     }
 }
