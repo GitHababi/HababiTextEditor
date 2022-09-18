@@ -45,8 +45,8 @@ public class ConsolePalette
     public ConsoleColor bg { get; init; }
     public static readonly ConsolePalette Default = new(){ bg = ConsoleColor.Black, fg = ConsoleColor.White };
     public static readonly ConsolePalette Alert = new() { bg = ConsoleColor.Red, fg = ConsoleColor.White };
-    public static readonly ConsolePalette Warning = new() { bg = ConsoleColor.DarkRed, fg = ConsoleColor.Red};
-
+    public static readonly ConsolePalette Warning = new() { bg = ConsoleColor.DarkRed, fg = ConsoleColor.Red };
+    public static readonly ConsolePalette LightMode = new() { bg = ConsoleColor.DarkGray, fg = ConsoleColor.White };
     public static ConsolePalette WithBlackBg(ConsoleColor color)
     {
         return new() { bg = ConsoleColor.Black, fg = color };

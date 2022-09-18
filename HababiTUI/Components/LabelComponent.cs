@@ -14,6 +14,7 @@ public class LabelComponent : Component
     /// <summary>
     /// Note: This won't update the label's Text until Draw() has been called.
     /// </summary>
+
     public string Text { get; set; }
 
     public LabelComponent(Rect position, Container parentContainer, ConsolePalette palette, string text) : base(position, parentContainer, palette)

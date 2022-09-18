@@ -132,7 +132,8 @@ internal class SelectionListComponent : Component
                         _container._chosenIndex = Math.Min(_container._chosenIndex + 1, _container._options.Count - 1);
                         break;
                     case ConsoleKey.Enter:
-                        _container.Result = _container._options[_container._chosenIndex];
+                        if (_container._chosenIndex != -1)
+                            _container.Result = _container._options[_container._chosenIndex];
                         _container.ForceStop();
                         return;
                 }

@@ -4,6 +4,7 @@ using System.Threading;
 using System.IO;
 using HababiTUI.Containers;
 using System.Security.Principal;
+using System.Diagnostics.SymbolStore;
 
 namespace HababiTUI
 {
@@ -23,33 +24,35 @@ namespace HababiTUI
             var selectionList = new SelectionListComponent(
                 new(0, 0),
                 mainWindow,
-                ConsolePalette.Alert,
+                ConsolePalette.LightMode,
                 new()
                 {
-                    new("option1",""),
-                    new("option2",""),
-                    new("option3","")
+                    new("New",""),
+                    new("Open",""),
+                    new("Recent Files",""),
+                    new("Find",""),
+                    new("Replace","")
                 },
-                "Title of Options"
+                "File"
                 );
+
+            var label = new LabelComponent(new(10, 10), mainWindow, "");
+            var button = new ButtonComponent(new(20, 10), mainWindow, "ok press here to close");
+            mainWindow.Components.Add(label);
+            mainWindow.Components.Add(button);
+            button.OnPressed = () =>
+            {
+                mainWindow.ForceStop();
+            };
+            Component.SetTopBottomPair(selectionList, button);
 
             selectionList.OnSelected = (option) =>
                  {
-                     var label = new LabelComponent(new(10, 10), mainWindow, option.Name);
-                     var button = new ButtonComponent(new(20, 10), mainWindow, "ok press here to close");
-                     button.OnPressed = () =>
+                     if (label.Text != option.Name)
                      {
-                         mainWindow.ForceStop();
-                     };
-
-                     mainWindow.Components.Add(button);
-                     mainWindow.Components.Add(label);
-
-                     Component.SetTopBottomPair(selectionList, button);
-
-                     button.Draw();
-                     label.Draw();
-
+                         label.Text = option.Name;
+                         mainWindow.DrawAll();
+                     }
                  };
 
             mainWindow.Components.Add(selectionList);
