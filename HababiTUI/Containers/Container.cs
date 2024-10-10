@@ -17,43 +17,56 @@ namespace HababiTUI.Containers
         public Rect Position { get; init; }
         
         public List<Component> Components { get; protected set; } = new();
-        protected Component? Selected;
+        protected Component Selected;
         public Container? ParentContainer { get; init; }
-
+        private readonly EmptyComponent _default;
         public Container(Rect position, Container? parent, ConsolePalette palette)
         {
             Palette = palette;
             Position = position;
             ParentContainer = parent;
+            _default = new(this);
+            Selected = _default;
         }
         public Container(Rect position, Container? parent)
         {
             Palette = ConsolePalette.Default;
             Position = position;
             ParentContainer = parent;
+            _default = new(this);
+            Selected = _default;
         }
 
         public void SelectComponent(Component component)
         {
             if (component.Selectable() && component.ParentContainer == this)
             {
-                if (Selected != null)
-                {
-                    Selected.Selected = false;
-                }
+                Selected.Selected = false;
                 Selected = component;
                 component.Selected = true;
             }
-            
         }
 
-        public void Unselect()
+        /// <summary>
+        /// The first component to be navigated to on first key press after activation (or deselection).
+        /// </summary>
+        /// <param name="component">The new default navitem</param>
+        public void SetDefaultNavItem(Component component)
         {
-            if (Selected != null)
-            {
-                Selected.Selected = false;
-                Selected = null;
-            }
+            _default.Top = component; 
+            _default.Left = component;
+            _default.Right = component;
+            _default.Bottom = component;
+        }
+        public void Unselect()
+        {       
+            Selected.Selected = false;
+            Selected = _default;
+        }
+        public void Select()
+        {
+            Selected.Selected = true;
+            // DrawAll(); // TODO: swap this for a nicer bufferswap.
         }
 
         /// <summary>
@@ -64,9 +77,6 @@ namespace HababiTUI.Containers
         
         public bool Navigate(ConsoleKeyInfo key) 
         {
-            if (Selected == null)
-                return false;
-
             Component? destination = null;
             switch (key.Key)
             {
@@ -87,19 +97,21 @@ namespace HababiTUI.Containers
             }
             if (destination != null)
                 SelectComponent(destination);
+
             return false;
         }
 
         private bool _exit;
-        public void ForceStop()
+        public void Close()
         {
+            // Redraw behind z.
+            Unselect();
+            ParentContainer?.Select();
             _exit = true;
         }
 
         public void DrawAll()
         {
-            if (ParentContainer != null)
-                ParentContainer.DrawAll();
 
             ConsoleHelper.SetPalette(Palette);
             ConsoleHelper.DrawEmptyRect(Position);
@@ -115,17 +127,13 @@ namespace HababiTUI.Containers
         public void Activate()
         {
             _exit = false;
-            DrawAll();
-            SelectComponent(Components.FirstOrDefault(x => x.Selectable()) ?? new DefaultComponent(this));
+            ParentContainer?.Unselect();
+            DrawAll(); 
+            SelectComponent(Components.FirstOrDefault(x => x.Selectable()) ?? _default);
             while (!_exit && !UI.Stopped)
             {
-                if (Selected != null)
-                {
-                    Selected.HandleInput(Console.ReadKey(true));
-                }
+                Selected.HandleInput(Console.ReadKey(true));
             }
-            if (ParentContainer != null)
-                ParentContainer.DrawAll();
         }
     }
 }

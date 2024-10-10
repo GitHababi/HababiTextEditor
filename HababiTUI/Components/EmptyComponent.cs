@@ -11,9 +11,9 @@ namespace HababiTUI.Components;
 /// <summary>
 /// A blank component that is selectable
 /// </summary>
-public class DefaultComponent : Component
+public class EmptyComponent : Component
 { 
-    public DefaultComponent(Container parentContainer) : base(new(), parentContainer)
+    public EmptyComponent(Container parentContainer) : base(new(), parentContainer)
     {
     }
 
@@ -23,8 +23,7 @@ public class DefaultComponent : Component
 
     public override void HandleInput(ConsoleKeyInfo key)
     {
-        if (key.Key == ConsoleKey.Escape)
-            this.ParentContainer.ForceStop();
+        ParentContainer.Navigate(key);
     }
 
     protected override void OnSelectionChanged(bool state)

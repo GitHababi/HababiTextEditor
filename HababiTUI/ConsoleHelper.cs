@@ -35,8 +35,7 @@ public static class ConsoleHelper
         
         for (int i = 0; i < rect.height; i++)
         {
-            Console.CursorLeft = rect.x;
-            Console.CursorTop = rect.y + i;
+            Console.SetCursorPosition(rect.x, rect.y + i);
             Console.Write("".PadRight(rect.width));
         }
     }

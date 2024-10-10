@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HababiTUI.Components;
 
-internal class SelectionListComponent : Component
+public class SelectionListComponent : Component
 {
     private int _width;
 
@@ -74,6 +74,7 @@ internal class SelectionListComponent : Component
         private List<ListOption> _options;
         private int _chosenIndex;
         private int _width;
+        // buffer swap idea for more efficient menu navigationx
         internal SelectionListContainer(Rect position, Container? parent, ConsolePalette palette, List<ListOption> options, int width) : base(position, parent, palette)
         {
             _options = options;
@@ -123,7 +124,7 @@ internal class SelectionListComponent : Component
                         break;
                     case ConsoleKey.Escape:
                         _container._chosenIndex = -1;
-                        _container.ForceStop();
+                        _container.Close();
                         return;
                     case ConsoleKey.UpArrow:
                         _container._chosenIndex = Math.Max(_container._chosenIndex - 1, 0);
@@ -134,7 +135,7 @@ internal class SelectionListComponent : Component
                     case ConsoleKey.Enter:
                         if (_container._chosenIndex != -1)
                             _container.Result = _container._options[_container._chosenIndex];
-                        _container.ForceStop();
+                        _container.Close();
                         return;
                 }
                 this.Draw();

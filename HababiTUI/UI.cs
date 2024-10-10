@@ -8,7 +8,7 @@ using HababiTUI.Containers;
 using HababiTUI.Utils;
 namespace HababiTUI;
 
-static class UI
+public static class UI
 {
     private static Thread _resizeThread;
     private static int _windowW;
@@ -21,18 +21,19 @@ static class UI
         Console.CursorVisible = false;
         Console.Clear();
         Console.Title = _title = title;
-
         ConsoleHelper.SetPalette(ConsolePalette.Default);
         ConsoleHelper.SetWindowSize(width, height);
+        ScreenBuffer.instance = new ScreenBuffer(new(0,0,width, height));
         _windowW = width;
         _windowH = height;
-        _resizeThread = new Thread(() =>
+        _resizeThread = new Thread(() => 
         {
             try
             {
                 while (!Stopped)
                     if (_windowH != Console.WindowHeight || _windowW != Console.WindowWidth)
                     {
+                        Console.Clear();
                         ConsoleHelper.SetPalette(ConsolePalette.Default);
                         ConsoleHelper.SetWindowSize(_windowW, _windowH);
                         _instance.DrawAll();
@@ -40,7 +41,7 @@ static class UI
             }
             catch { }
         });
-        _resizeThread.Start();
+        _resizeThread.Start(); // TODO: make screen buffer also resize (because IOB Exceptions will happen!)
         return _instance = new FullWindowContainer(ConsolePalette.Default);
 
     }

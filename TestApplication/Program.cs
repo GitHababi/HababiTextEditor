@@ -5,15 +5,15 @@ using System.IO;
 using HababiTUI.Containers;
 using System.Security.Principal;
 using System.Diagnostics.SymbolStore;
-
-namespace HababiTUI
+using HababiTUI;
+namespace TestApplication
 {
     public static class Program
     {
         public static void Main(string[] args)
         {
             var mainWindow = UI.Init(120, 30, "UI Testing!");
-
+            mainWindow.Palette = ConsolePalette.Default;
             TestForLists(mainWindow);
             SpawnPopup(mainWindow);
             UI.Close();
@@ -38,26 +38,23 @@ namespace HababiTUI
 
             var label = new LabelComponent(new(10, 10), mainWindow, "");
             var button = new ButtonComponent(new(20, 10), mainWindow, "ok press here to close");
+            
             mainWindow.Components.Add(label);
             mainWindow.Components.Add(button);
             button.OnPressed = () =>
             {
-                mainWindow.ForceStop();
+                SpawnPopup(mainWindow);
             };
             Component.SetTopBottomPair(selectionList, button);
 
             selectionList.OnSelected = (option) =>
-                 {
-                     if (label.Text != option.Name)
-                     {
-                         label.Text = option.Name;
-                         mainWindow.DrawAll();
-                     }
-                 };
+            {
+                label.Text = option.Name;
+            };
 
             mainWindow.Components.Add(selectionList);
+            mainWindow.SetDefaultNavItem(button);
             mainWindow.Activate();
-            mainWindow.Components.Clear();
         }
 
         private static void SpawnPopup(Container mainWindow)
@@ -76,7 +73,7 @@ namespace HababiTUI
                 popup.Message.Text = $"Clicked {number} times";
                 popup.Message.Draw();
                 if (number == 10)
-                    popup.ForceStop();
+                    popup.Close();
             };
             popup.Activate();
         }

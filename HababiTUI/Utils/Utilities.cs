@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace HababiTUI.Utils;
 public class Rect
@@ -39,14 +40,15 @@ public class Rect
     }
 }
 
+
 public class ConsolePalette
 {
-    public ConsoleColor fg { get; init; }
-    public ConsoleColor bg { get; init; }
-    public static readonly ConsolePalette Default = new(){ bg = ConsoleColor.Black, fg = ConsoleColor.White };
+    public ConsoleColor fg, bg;
+    public static readonly ConsolePalette Default = new() { bg = ConsoleColor.Black, fg = ConsoleColor.White };
     public static readonly ConsolePalette Alert = new() { bg = ConsoleColor.Red, fg = ConsoleColor.White };
     public static readonly ConsolePalette Warning = new() { bg = ConsoleColor.DarkRed, fg = ConsoleColor.Red };
     public static readonly ConsolePalette LightMode = new() { bg = ConsoleColor.DarkGray, fg = ConsoleColor.White };
+    public static ConsolePalette Current { get; internal set; }
     public static ConsolePalette WithBlackBg(ConsoleColor color)
     {
         return new() { bg = ConsoleColor.Black, fg = color };
